@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from '../styles/ProfileBox.module.css';
 import { getAuth, onAuthStateChanged, deleteUser } from "firebase/auth";
+import Link from "next/link";
 
 
 export function EditProfileBox(props) {
-    
+
     const userData = props.userData;
 
     const handleFirstnameChange = (event) => {
@@ -29,17 +30,22 @@ export function EditProfileBox(props) {
     }
 
     const deleteAccount = () => {
-        axios.delete(`/api/users/${userData.uid}`).then((response) => {
-            console.log(response)
-        })
-        const auth = getAuth();
-        const user = auth.currentUser;
+        try {
+            axios.delete(`/api/users/${userData.uid}`).then((response) => {
+                console.log(response)
+                const auth = getAuth();
+                const user = auth.currentUser;
 
-        deleteUser(user).then(() => {
-            console.log('user deleted')
-        }).catch((error) => {
-           console.log(error) 
-        });
+                deleteUser(user).then(() => {
+                    console.log('user deleted')
+                }).catch((error) => {
+                    console.log(error)
+                });
+            })
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 
     return (
@@ -60,7 +66,7 @@ export function EditProfileBox(props) {
                     placeholder={userData != null ? userData.lastname : "loading"}
                     onChange={handleLastnameChange}
                 />
-                <p>Email<br></br>{userData != null ? userData.email: ""}</p>
+                <p>Email<br></br>{userData != null ? userData.email : ""}</p>
                 <p>Phone</p>
                 <input
                     type="text"
@@ -69,13 +75,20 @@ export function EditProfileBox(props) {
                     onChange={handlePhoneChange}
                 />
             </div>
-            <a className={styles.button} href='profile' onClick={saveNewUserInfo}>
-                Save
-            </a>
-
-            <a className={styles.button} href='/' onClick={deleteAccount}>
-                Delete Account
-            </a>
+            <Link href="profile">
+                <a className={styles.button}
+                    // href='profile' 
+                    onClick={saveNewUserInfo}>
+                    Save
+                </a>
+            </Link>
+            <Link href='/'>
+                <a className={styles.button}
+                    // href='/' 
+                    onClick={deleteAccount}>
+                    Delete Account
+                </a>
+            </Link>
         </div>
     );
 }

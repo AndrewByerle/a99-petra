@@ -33,10 +33,13 @@ export function ProfileBox(props) {
             <a className={styles.button} href='editprofile'>
                 Edit Info
             </a>
-
-            <a className={styles.button} href='/' onClick={signOutUser}>
-                Log Out
-            </a>
+            <Link href='/'>
+                <a className={styles.button}
+                    // href='/' 
+                    onClick={signOutUser}>
+                    Log Out
+                </a>
+            </Link>
         </div>
     );
 }
