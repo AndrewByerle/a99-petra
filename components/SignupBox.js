@@ -32,7 +32,7 @@ export function SignupBox() {
             console.log("Signed up user: ", user)
             const newData = {...data, uid: user.uid};
             console.log(newData);
-            axios.post("https://a99-petra-31p5ko3um-andrewbyerle.vercel.app/api/users/", newData).then((response) => {
+            axios.post("/api/users", newData).then((response) => {
                 console.log(response);
             })
             Router.push('/login');
