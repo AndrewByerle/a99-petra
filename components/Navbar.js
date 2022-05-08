@@ -1,4 +1,5 @@
 import styles from '../styles/Navbar.module.css'
+import Link from 'next/link';
 
 export function Navbar(props) {
   const userData = props.userData;
@@ -8,7 +9,7 @@ export function Navbar(props) {
   return (
     <div id={styles.navbar}>
         <div id={styles.navbar_content}>
-          <img src="placeholder.png" />
+          <img src="placeholder.png" alt="description of img" />
           <div id={styles.navbar_profile}>
             <div id={styles.profile_box}>
               <p>{userData != null ? userData.firstname + ' ' + userData.lastname : "login to view profile" }</p>

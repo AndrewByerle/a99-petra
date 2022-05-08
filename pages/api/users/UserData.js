@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import axios from "axios";
 
-export function getUserData() {
+export function GetUserData() {
     const [userData, setUserData] = useState(null);
     useEffect(async () => {
         const auth = getAuth();

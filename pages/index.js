@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { TextBox } from '../components/TextBox'
 import { Page } from '../components/Page'
-import { getUserData } from './api/users/UserData';
+import { GetUserData } from './api/users/UserData';
 
 export default function Main() {
 
-  const userData = getUserData();
+  const userData = GetUserData();
 
   return (
       <Page layout="0" userData={userData}>
