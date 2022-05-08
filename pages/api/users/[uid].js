@@ -1,31 +1,29 @@
-import { getFirestore } from "firebase/firestore"
-import { doc, updateDoc, getDoc, deleteDoc } from "firebase/firestore";
+import { firebaseAdmin } from "../../../firebase/admin";
+
 
 
 export default async (req, res) => {
+    let db = firebaseAdmin.firestore();
     const { uid } = req.query;
-    const db = getFirestore();
 
     try {
         if (req.method === 'PUT') {
-            const userRef = doc(db, "users", uid);
-
-            await updateDoc(userRef, {
+            await db.collection('users').doc(uid).update({
                 ...req.body,
-                updated: new Date().toLocaleString(),
+                updated: new Date().toISOString(),
             });
-        } else if (req.method === 'GET') {
-            const docRef = doc(db, "users", uid);
-            const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
-                res.status(200).json(docSnap.data());
-            } else {
+        } else if (req.method === 'GET') {
+            const doc = await db.collection('users').doc(uid).get();
+
+            if (!doc.exists) {
                 res.status(404).end();
+            } else {
+                res.status(200).json(doc.data());
             }
 
         } else if (req.method === 'DELETE') {
-            await deleteDoc(doc(db, "users", uid));
+            await db.collection('users').doc(uid).delete();
         }
         res.status(200).end();
     } catch (e) {
